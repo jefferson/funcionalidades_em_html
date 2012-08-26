@@ -1,0 +1,104 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+     <title>Teste</title>
+     <style>
+      select{
+      padding:10px;
+      height:200px;
+      width:200px;
+      float:left;
+      }
+      select[name='lista_prioridade']{      width:500px;}
+      fieldset{
+     float: left;
+     width: 73px;
+     position: relative;
+     height: 164px;
+     padding-top: 22px;
+      }
+      
+     </style>
+</head>  
+     <body>
+          <select name="vagas" multiple="true">
+            <optgroup label="Belo Horizonte">
+               <option value="6">1 Vara Criminal </option>
+               <option value="7">2 Vara Criminal </option>
+               <option value="8">3 Vara Criminal </option>
+               <option value="9">4 Vara Criminal </option>
+               <option value="10">5 Vara Criminal </option>
+            </optgroup>
+            <optgroup label="Juiz de Fora">
+               <option value="1">1 Vara Criminal </option>
+               <option value="2">2 Vara Criminal </option>
+               <option value="3">3 Vara Criminal </option>
+               <option value="4">4 Vara Criminal </option>
+               <option value="5">5 Vara Criminal </option>
+            </optgroup>
+          </select>
+          <fieldset>
+             <legend>Opcoes</legend>
+             <button id="adicionar">Adicionar</button>
+             <button id="remover" >Remover</button>
+             <button id="cima">Para cima</button>
+             <button id="baixo">Para baixo</button>
+          </fieldset>
+          <select name="lista_prioridade" multiple="true">
+             
+          <select>  
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+      <script>
+          $(document).ready(function(){
+               
+               $("button#adicionar").click(function(){
+                    
+                    $("select[name='vagas']").attr('disabled', true)
+                    
+                    $("select[name='vagas'] option:selected").each(function(){
+                         
+                         var html = $(this).parent().attr('label') + '::' + $(this).html()
+                         $(this).attr('optgroup', $(this).parent().attr('label') )
+                         $("select[name='lista_prioridade']").append($(this).html(html));
+                         
+                    });
+                    
+                    $("select[name='vagas']").attr('disabled', false )
+               });
+               
+               $("button#remover").click(function(){
+                    
+                    $("select[name='lista_prioridade']").attr('disabled', true)
+                    
+                    $("select[name='lista_prioridade'] option:selected").each(function(){
+                         
+                         var html = $(this).html().split('::')
+                         $("select[name='vagas']").find('optgroup[label="'+$(this).attr('optgroup')+'"]').append($(this).html(html[1]));
+                         
+                    });
+                    
+                    $("select[name='lista_prioridade']").attr('disabled', false )
+               });
+               
+               $("button#cima").click(function(){
+
+                    var temp = $("select[name='lista_prioridade'] option:selected")               
+                    
+                    if(temp.size() > 1 )
+                       alert("Para ordenar você deve selecionar uma opção por vez.")
+                    else
+                    temp.prev().before(temp)
+               });
+               
+               $("button#baixo").click(function(){
+                    var temp = $("select[name='lista_prioridade'] option:selected")
+                    if(temp.size() > 1 )
+                       alert("Para ordenar você deve selecionar uma opção por vez.")
+                    else
+                    temp.before(temp.next())
+               });
+                              
+          });
+      </script>      
+     </body>
+</html>
